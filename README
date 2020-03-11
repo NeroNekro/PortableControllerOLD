@@ -1,23 +1,30 @@
 ### How to install?
-Copy the dir to c:/ oder d:/. It is not working under c:/programm-files
+Download and enjoy
 
 ### Prepation for using?
-You should be sure, that port 80 is not in use
+You should be sure, that port 80 is not in use or change the port number in the config.ini file
 
 ### How I start the service?
-Click on the file start.bat. To quit on stop.bat
+Start main.py
+
+### I can't connect from other devices.
+Maybe your firewall block all connections.
+For Windows:
+1) Start CMD with admin rights
+2) netsh firewall add portopening TCP 80 "PortableController"
+If you want another port, you have to change the port number in config.ini and in the line above
 
 ### Which Buttons are available?
 F1-F12, a-z, 0-9, alt, shift, ctrl, del, enter, up, down, left, right
 
 ### Are combinations possible?
-Yes, you have to change the value of the button in: space§a or alt§2
+No. In the next version, I want add some extra features for combinations.
 
 ### How much is the delay?
 <= 1 second
 
 ### Why is the delay so long?
-The delay comes together for several reasons. Partly it is due to the Wlan and partly an HTML request is data intensive. Furthermore, there are currently several levels (HTML-Ajax/PHP/Python3). I try to minimize the time soon and remove the PHP part.
+The delay comes together for several reasons. Partly it is due to the Wlan and partly an HTML request is data intensive.
 
 ### Is it possible to find out the key-status in SC?
 No, StarCitizen does not currently offer an API.
@@ -29,5 +36,5 @@ All games and software products which work with hotkeys are possible.
 You can design anything with HTML/Javascipt.
 
 ### Under which license is the software published?
-Webserver: WPИ-XM is open-source and MIT licensed.
+Flask: BSD 3-Clause
 My Scripts: Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
