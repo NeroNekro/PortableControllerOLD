@@ -14,6 +14,10 @@ For Windows:
 2) netsh firewall add portopening TCP 80 "PortableController"
 If you want another port, you have to change the port number in config.ini and in the line above
 
+### What is the link to the server?
+
+http://YOUR-IP:PORT/www/TEMPLATE:NAME/index.html
+
 ### Which Buttons are available?
 F1-F12, a-z, 0-9, alt, shift, ctrl, del, enter, up, down, left, right
 
