@@ -6,6 +6,9 @@ from os import scandir
 
 uiFolder = ""
 modsFolder = ""
+port = ""
+IPAddr = ""
+configData = None
 
 app = Flask(__name__, static_folder="www")
 
@@ -45,7 +48,7 @@ def scanDir():
 
 def readConfig(path):
     global uiFolder
-
+    global meta
     metaPath = f"{uiFolder}/{path}/meta.ini"
     print (metaPath)
     config = configparser.ConfigParser()
@@ -61,20 +64,56 @@ def readConfig(path):
         "devices": config['Info']['devices']
     }
     return meta
+
+def Browser(port, IPAddr):
+    import webbrowser
+
+    url = f'http://{IPAddr}:{port}/'
+    webbrowser.open_new(url)
+
+def getBrowserData():
+    config = getConfig()
+    ip = getIP()
+    url = f'http://{ip}:{config["port"]}/'
+    return url
+
+def getConfig():
+    global configData
+    config = configparser.ConfigParser()
+    try:
+        config.read('config.ini')
+    except:
+        print(getTime() + " - Error in config.ini")
+
+    configData = {
+        "autoIP": config['Server']['autoIP'],
+        "ip": config['Server']['ip'],
+        "port": config['Server']['port'],
+        "uiFolder": config['Server']['uiFolder'],
+        "debug": config['Server']['debug']
+    }
+    return configData
+
+def getIP():
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    return IPAddr
+
 def runServer():
     global uiFolder
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    if (config['Server']['autoIP'] == "True" or config['Server']['autoIP'] == "yes" or config['Server']['autoIP'] == "true"):
-        hostname = socket.gethostname()
-        IPAddr = socket.gethostbyname(hostname)
+    global port
+    global IPAddr
+
+    config = getConfig()
+    if (config['autoIP'] == "True" or config['autoIP'] == "yes" or config['autoIP'] == "true"):
+        IPAddr = getIP()
     else:
-        IPAddr = config['Server']['ip']
+        IPAddr = config['ip']
 
-    port = config['Server']['port']
+    port = config['port']
+    uiFolder = config['uiFolder']
 
-    uiFolder = config['Server']['uiFolder']
-    if(config['Server']['debug'] == "True" or config['Server']['debug'] == "yes"):
+    if(config['debug'] == "True" or config['debug'] == "yes"):
         debug = True
     else:
         debug = False
@@ -82,5 +121,17 @@ def runServer():
 
     #app.config['STATIC_FOLDER'] = "www"
     app.debug = debug
-    app.run(host=IPAddr, port=port)
+    url = f'http://{IPAddr}:{port}/'
+    try:
+
+        app.run(host=IPAddr, port=port)
+
+    except:
+        print(getTime() + " - Server won't start")
+    try:
+        os.popen(f"netsh advfirewall firewall add rule name=PortableController dir=in action=allow protocol=TCP localport={port}")
+    except:
+        print(getTime() + " - Firewall can't be open")
+
+
 
