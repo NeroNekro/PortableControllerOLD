@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import socket
 import configparser
 import threading
+import os
 from os import scandir
 
 uiFolder = ""
@@ -83,7 +84,7 @@ def getConfig():
     try:
         config.read('config.ini')
     except:
-        print(getTime() + " - Error in config.ini")
+        print(" - Error in config.ini")
 
     configData = {
         "autoIP": config['Server']['autoIP'],
@@ -127,11 +128,11 @@ def runServer():
         app.run(host=IPAddr, port=port)
 
     except:
-        print(getTime() + " - Server won't start")
+        print(" - Server won't start")
     try:
         os.popen(f"netsh advfirewall firewall add rule name=PortableController dir=in action=allow protocol=TCP localport={port}")
     except:
-        print(getTime() + " - Firewall can't be open")
+        print(" - Firewall can't be open")
 
 
 
