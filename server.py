@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import sys; sys.stderr = open("errlog.txt", "w")
 import socket
 import configparser
 import threading
@@ -66,11 +67,14 @@ def readConfig(path):
     }
     return meta
 
-def Browser(port, IPAddr):
+def Browser(url, port = 0, IPAddr = ""):
     import webbrowser
 
-    url = f'http://{IPAddr}:{port}/'
-    webbrowser.open_new(url)
+    if url == "":
+        url = f'http://{IPAddr}:{port}/'
+        webbrowser.open_new(url)
+    else:
+        webbrowser.open_new(url)
 
 def getBrowserData():
     config = getConfig()

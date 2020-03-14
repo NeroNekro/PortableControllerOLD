@@ -28,7 +28,7 @@
                 <input type="image" class="button" src="content/icons/door.png" name="button" value="f11" onclick="sendButton(this);">
                 <input type="image" class="button" src="content/icons/target.png" name="button" value="f11" onclick="sendButton(this);">
                 <input type="image" class="button" src="content/icons/destroy.png" name="button" value="backspace" onclick="sendButton(this);">
-                <input type="image" class="button" src="content/icons/hangar.png" name="button" value="f11" onclick="sendButton(this);">
+                <input type="image" class="button" src="content/icons/hangar.png" name="button" value="w" onclick="sendButton(this);">
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             $.ajax({
                 type: "POST",
                 url: "/key",
-                data: "type=" + BTval.name + "&key=" + BTval.value + "&counter=" + 8 + "&timer=" + 0
+                data: "type=" + BTval.name + "&key=" + BTval.value + "&counter=" + 1 + "&timer=" + 0
 
             });
         }
