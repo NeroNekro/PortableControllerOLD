@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-import sys; sys.stderr = open("errlog.txt", "w")
+import sys
 import socket
 import configparser
 import threading

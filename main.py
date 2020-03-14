@@ -1,5 +1,5 @@
 import server
-import sys; sys.stderr = open("errlog.txt", "w")
+import sys
 import multiprocessing as mp
 import PySimpleGUI as sg
 import datetime
