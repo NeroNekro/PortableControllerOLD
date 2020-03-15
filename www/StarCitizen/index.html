@@ -19,7 +19,7 @@
         <div class="window">
             <div class="windowPanel">
                 <input type="image" class="button" src="content/icons/light.png" name="button" value="t" onclick="sendButton(this);">
-                <input type="image" class="button" src="content/icons/comm.png" name="button" value="F11" onclick="sendButton(this);">
+                <input type="image" class="button" src="content/icons/comm.png" name="button" value="F3" onclick="sendText(this);">
                 <input type="image" class="button" src="content/icons/navi.png" name="button" value="F3" onclick="sendButton(this);">
                 <input type="image" class="button" src="content/icons/shield.png" name="button" value="" onclick="sendButton(this);">
                 <input type="image" class="button" src="content/icons/power.png" name="button" value="i" onclick="sendButton(this);">
@@ -43,6 +43,16 @@
                 type: "POST",
                 url: "/key",
                 data: "type=" + BTval.name + "&key=" + BTval.value + "&counter=" + 1 + "&timer=" + 0
+
+            });
+        }
+
+        function sendText(BTval) {
+
+            $.ajax({
+                type: "POST",
+                url: "/text",
+                data: "chatOpen=" + "t" + "&chatText=" + "/Dance" + "&chatSend=" + "Enter"
 
             });
         }

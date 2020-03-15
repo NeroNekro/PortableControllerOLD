@@ -4,7 +4,7 @@ import socket
 import configparser
 import threading
 import os
-from os import scandir
+from mods import keyboard
 
 uiFolder = ""
 modsFolder = ""
@@ -60,14 +60,12 @@ def index():
 
 @app.route('/key', methods=['POST'])
 def key():
-    from mods import keyboard
     type = request.form.get("type")
     key = request.form.get("key")
     counter = request.form.get("counter")
     timer = request.form.get("timer")
     counter = int(counter)
     timer = int(timer)
-    #print(request.form.get("counter"))
     try:
         th = threading.Thread(target=keyboard.button, args=(key, counter,timer))
         th.start()
@@ -75,6 +73,19 @@ def key():
         print ("Error: unable to start thread")
 
     return "success"
+
+@app.route('/text', methods=['POST'])
+def text():
+    chatOpen = request.form.get("chatOpen")
+    chatText = request.form.get("chatText")
+    chatSend = request.form.get("chatSend")
+    try:
+        th = threading.Thread(target=keyboard.text, args=(chatOpen, chatText, chatSend))
+        th.start()
+        return "success"
+    except:
+        print ("Error: unable to start thread")
+        return "failed"
 
 def scanDir():
     dir = "www"
