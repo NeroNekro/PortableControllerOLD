@@ -6,7 +6,7 @@ import datetime
 import os
 import time
 serverRunning = False
-serverD =  None
+serverD = None
 
 def getTime():
     now = datetime.datetime.now()
@@ -33,17 +33,16 @@ def pcServer():
             print(getTime() + " - Server stopped")
         except:
             print(getTime() + " - Error: Server won't stop")
-            # self.text.setText("PortableController won't stop")
 
 
 def GUI():
 
-    sg.theme('DarkBlue1')  # please make your windows colorful
+    sg.theme('DarkBlue1')
 
     layout = [[sg.Text('Portable Controller')],
               [sg.Output(background_color='#F7F3EC', text_color='black', size=(35, 7))],
               [sg.Button("Server Start", key='-BUTTON-'), sg.Open("Open Browser"), sg.Exit()],
-              [sg.Text('Tobias Jacobs https://portable-controller.de', click_submits=True, key="-LINK-")]]
+              [sg.Text('TJ 2020 V0.5 https://portable-controller.de', click_submits=True, key="-LINK-")]]
 
     window = sg.Window('Portable Controller', layout, no_titlebar=True, size=(300, 220), resizable=False,
                        keep_on_top=False, alpha_channel=.95, grab_anywhere=True)
