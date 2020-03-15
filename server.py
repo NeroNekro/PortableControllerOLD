@@ -16,7 +16,47 @@ app = Flask(__name__, static_folder="www")
 
 @app.route('/')
 def index():
-    return "hallo"
+    folder = scanDir()
+    config = getConfig()
+    ip = getIP()
+    html = f'''
+            <html>
+                <head>
+                    <link rel="shortcut icon" type="image/x-icon" href="http://{ip}:{config["port"]}/www/favicon.ico">
+                    <link rel="stylesheet" type="text/css" href="http://{ip}:{config["port"]}/www/style.css">
+                    <script src="http://{ip}:{config["port"]}/www/style.js"></script>
+                </head>
+                <body>
+                    <h1 align="center">// Portable Controller</h1>
+                    <table class="tg">
+                        <tr>
+                            <th class="tg-baqh">Logo</th>
+                            <th class="tg-0lax">Game</th>
+                            <th class="tg-0lax">GameVersion</th>
+                            <th class="tg-0lax">Description</th>
+                            <th class="tg-0lax">Version</th>
+                            <th class="tg-0lax">Author</th>
+                            <th class="tg-0lax">Release</th>
+                            <th class="tg-0lax">Devices</th>
+                            <th class="tg-0lax">Link</th>
+                        </tr>'''
+
+
+    for dir in folder:
+        html += "<tr>"
+        metaData = readMeta(dir)
+        html += f'''<td class="tg-0lax"><a href="http://{ip}:{config["port"]}/www/{dir}/index.html"><img src="http://{ip}:{config["port"]}/www/{dir}/logo.png" width="64px"> </td>
+                    <td class="tg-0lax">{metaData["game"]}</td>
+                    <td class="tg-0lax">{metaData["gameversion"]}</td>
+                    <td class="tg-0lax">{metaData["description"]}</td>
+                    <td class="tg-0lax">{metaData["version"]}</td>
+                    <td class="tg-0lax">{metaData["author"]}</td>
+                    <td class="tg-0lax">{metaData["release"]}</td>
+                    <td class="tg-0lax">{metaData["devices"]}</td>
+                    <td class="tg-0lax"><a href="{metaData["url"]}" target="_blank">Link</a></td></tr>'''
+    html += "</table>"
+    html += '<br><br><footer><a class="link" align="center" href="https://portable-controller.de" target="_blank">TJ 2020 - Portable-Controller.de</a></footer></body></html>'
+    return html
 
 @app.route('/key', methods=['POST'])
 def key():
@@ -37,21 +77,19 @@ def key():
     return "success"
 
 def scanDir():
-    global uiFolder
-    dir = uiFolder
-    print (dir)
-    subdir = []
-    for root, dirs, files in os.walk(top, topdown=False):
-        for name in dirs:
-            subdir.append(os.path.join(root, name))
+    dir = "www"
+
+    listDir = []
+    obj = os.scandir(dir)
+    for entry in obj:
+        if entry.is_dir():
+             listDir.append(entry.name)
 
 
-    return subdir
+    return listDir
 
-def readConfig(path):
-    global uiFolder
-    global meta
-    metaPath = f"{uiFolder}/{path}/meta.ini"
+def readMeta(path):
+    metaPath = f"www/{path}/meta.ini"
     print (metaPath)
     config = configparser.ConfigParser()
     config.read(metaPath)
